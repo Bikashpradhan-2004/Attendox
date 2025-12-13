@@ -1,5 +1,5 @@
-import Header from "@/components/dashboard/Header";
-import SideNav from "@/components/dashboard/SideNav";
+import Header from "@/components/Dashboard/Header";
+import SideNav from "@/components/Dashboard/SideNav";
 
 export default function layout({ children }) {
   return (
