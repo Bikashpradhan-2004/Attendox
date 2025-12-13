@@ -5,10 +5,14 @@ import { PiStudent } from "react-icons/pi";
 import { HiOutlineHandRaised } from "react-icons/hi2";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const SideNav = () => {
   const { user } = useKindeBrowserClient();
   const profileImageUrl = user?.picture;
+  const pathname = usePathname();
+
   const menuList = [
     {
       name: "Dashboard",
@@ -33,22 +37,25 @@ const SideNav = () => {
   ];
 
   return (
-    <div className="border shadow-md h-screen p-5">
+    <div className="border shadow-md h-screen p-5 relative">
       <Image src="/images/attendox.png" width={180} height={50} alt="logo" />
       <hr className="my-5"></hr>
       {menuList.map((menu) => (
-        <h2
-          key={menu.name}
-          className="flex items-center gap-3 text-md px-3 py-4 text-slate-500 hover:bg-primary hover:text-white cursor-pointer rounded-lg my-2 transition"
-        >
-          <div className="text-2xl">{menu.icon}</div>
-          {menu.name}
-        </h2>
+        <Link href={menu.path} key={menu.name}>
+          <h2
+            className={`flex items-center gap-3 text-md px-3 py-4 text-slate-500 hover:bg-primary hover:text-white cursor-pointer rounded-lg my-2 transition ${
+              pathname === menu.path && "bg-primary text-white"
+            }`}
+          >
+            <div className="text-2xl">{menu.icon}</div>
+            {menu.name}
+          </h2>
+        </Link>
       ))}
-      <div className="flex gap-2 items-center bottom-10 fixed">
+      <div className="flex gap-2 items-center absolute bottom-10 left-5">
         {profileImageUrl && (
           <Image
-            src={user?.picture}
+            src={profileImageUrl}
             width={35}
             height={35}
             alt="user"
