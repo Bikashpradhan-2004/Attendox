@@ -11,7 +11,7 @@ import { addMonths, format } from "date-fns";
 import { useState } from "react";
 import { PiCalendar } from "react-icons/pi";
 
-const MonthSelection = ({ onMonthSelect }) => {
+const MonthSelection = ({ selectedMonth }) => {
   const [month, setMonth] = useState(addMonths(new Date(), 0));
 
   return (
@@ -32,7 +32,7 @@ const MonthSelection = ({ onMonthSelect }) => {
           month={month}
           onMonthChange={(newMonth) => {
             setMonth(newMonth);
-            onMonthSelect?.(newMonth);
+            selectedMonth?.(newMonth);
           }}
           showOutsideDays={false}
         />

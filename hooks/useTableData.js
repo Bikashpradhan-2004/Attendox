@@ -26,5 +26,3 @@ const useTableData = (initialData = []) => {
 };
 
 export default useTableData;
-
-// File path: app/lib/hooks/useTableData.js
