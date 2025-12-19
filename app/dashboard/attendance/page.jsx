@@ -3,18 +3,20 @@ import GradeSelect from "@/components/Attendance/GradeSelect";
 import MonthSelection from "@/components/Attendance/MonthSelection";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { format } from "date-fns";
+import moment from "moment/moment";
+import ApiClient from "@/lib/ApiClient";
+import AttendanceGrid from "@/components/Attendance/AttendanceGrid";
 
 const Attendance = () => {
   const [selectedMonth, setSelectedMonth] = useState(null);
   const [selectedGrade, setSelectedGrade] = useState("");
+  const [attendanceList, setAttendanceList] = useState(null);
 
   const onSearchHandler = () => {
-    console.log("Grade:", selectedGrade);
-    console.log(
-      "Month:",
-      selectedMonth ? format(selectedMonth, "MMM yyyy") : "Not selected"
-    );
+    const month = moment(selectedMonth).format("MM/YYYY");
+    ApiClient.GetAttendanceList(selectedGrade, month).then((resp) => {
+      setAttendanceList(resp.data);
+    });
   };
 
   return (
@@ -34,6 +36,7 @@ const Attendance = () => {
           Search
         </Button>
       </div>
+      <AttendanceGrid attendanceList={attendanceList} />
     </div>
   );
 };
