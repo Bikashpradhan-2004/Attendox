@@ -13,7 +13,7 @@ const Attendance = () => {
   const [attendanceList, setAttendanceList] = useState(null);
 
   const onSearchHandler = () => {
-    const month = moment(selectedMonth).format("MM/YYYY");
+    const month = moment(selectedMonth).format("MM/yyyy");
     ApiClient.GetAttendanceList(selectedGrade, month).then((resp) => {
       setAttendanceList(resp.data);
     });
@@ -22,7 +22,7 @@ const Attendance = () => {
   return (
     <div className="p-7">
       <h1 className="text-2xl font-bold">Attendance</h1>
-      <div className="flex gap-4 border rounded-lg my-4 p-4 shadow- md">
+      <div className="flex flex-wrap gap-4 border rounded-lg my-4 p-4 shadow- md">
         <div className="flex gap-2 items-center">
           <label>Select Month:</label>
           <MonthSelection selectedMonth={setSelectedMonth} />
@@ -36,7 +36,10 @@ const Attendance = () => {
           Search
         </Button>
       </div>
-      <AttendanceGrid attendanceList={attendanceList} />
+      <AttendanceGrid
+        attendanceList={attendanceList}
+        selectedMonth={selectedMonth}
+      />
     </div>
   );
 };
