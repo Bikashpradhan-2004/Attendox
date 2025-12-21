@@ -17,7 +17,7 @@ import { useStudentForm } from "@/hooks/useStudentForm";
 import {
   studentInitialValues,
   studentValidationSchema,
-} from "@/utils/studentFormSchema";
+} from "@/components/Students/AddNewStudent/utils/studentFormSchema";
 
 const AddNewStudent = ({ refreshData }) => {
   const [open, setOpen] = useState(false);

@@ -7,7 +7,7 @@ import ActionCell from "./ActionCell";
 import ApiClient from "@/lib/ApiClient";
 import DataTable from "./DataTable";
 import useTableData from "@/hooks/useTableData";
-import { getStudentColumnDefs } from "@/lib/getStudentColumnDefs";
+import { getStudentColumnDefs } from "@/components/Students/StudentListTable/utils/getStudentColumnDefs";
 import SearchBar from "./SearchBar";
 
 const StudentListTable = ({ studentList, refreshData }) => {
