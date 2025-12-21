@@ -1,5 +1,3 @@
-// Path: components/Students/AddNewStudent/studentFormSchema.js
-
 import * as Yup from "yup";
 
 export const studentValidationSchema = Yup.object({
