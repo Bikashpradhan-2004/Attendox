@@ -19,13 +19,11 @@ export async function GET(req) {
       attendanceId: ATTENDANCE.id,
     })
     .from(STUDENTS)
-    .leftJoin(ATTENDANCE, eq(STUDENTS.id, ATTENDANCE.studentId))
-    .where(
-      and(
-        eq(STUDENTS.grade, grade),
-        or(eq(ATTENDANCE.date, month), isNull(ATTENDANCE.date))
-      )
-    );
+    .leftJoin(
+      ATTENDANCE,
+      and(eq(STUDENTS.id, ATTENDANCE.studentId), eq(ATTENDANCE.date, month))
+    )
+    .where(eq(STUDENTS.grade, grade));
 
   return NextResponse.json(result);
 }
@@ -39,5 +37,22 @@ export async function POST(req) {
     day: data.day,
     date: data.date,
   });
+  return NextResponse.json(result);
+}
+
+export async function DELETE(req) {
+  const searchParams = req.nextUrl.searchParams;
+  const studentId = searchParams.get("studentId");
+  const date = searchParams.get("date");
+  const day = searchParams.get("day");
+  const result = await db
+    .delete(ATTENDANCE)
+    .where(
+      and(
+        eq(ATTENDANCE.studentId, studentId),
+        eq(ATTENDANCE.day, day),
+        eq(ATTENDANCE.date, date)
+      )
+    );
   return NextResponse.json(result);
 }
