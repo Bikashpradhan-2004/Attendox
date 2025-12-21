@@ -7,12 +7,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { addMonths, format } from "date-fns";
+import { format } from "date-fns";
 import { useState } from "react";
 import { PiCalendar } from "react-icons/pi";
 
 const MonthSelection = ({ selectedMonth }) => {
-  const [month, setMonth] = useState(addMonths(new Date(), 0));
+  const [month, setMonth] = useState(new Date());
 
   return (
     <Popover>
