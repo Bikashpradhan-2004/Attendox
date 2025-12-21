@@ -8,7 +8,7 @@ import ApiClient from "@/lib/ApiClient";
 import AttendanceGrid from "@/components/Attendance/AttendanceGrid";
 
 const Attendance = () => {
-  const [selectedMonth, setSelectedMonth] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [selectedGrade, setSelectedGrade] = useState("");
   const [attendanceList, setAttendanceList] = useState(null);
 
@@ -22,7 +22,7 @@ const Attendance = () => {
   return (
     <div className="p-7">
       <h1 className="text-2xl font-bold">Attendance</h1>
-      <div className="flex flex-wrap gap-4 border rounded-lg my-4 p-4 shadow- md">
+      <div className="flex flex-wrap gap-4 border rounded-lg my-4 p-4 shadow-md">
         <div className="flex gap-2 items-center">
           <label>Select Month:</label>
           <MonthSelection selectedMonth={setSelectedMonth} />
