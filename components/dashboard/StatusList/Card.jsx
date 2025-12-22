@@ -1,0 +1,13 @@
+const Card = ({ icon, title, value }) => {
+  return (
+    <div className="flex items-center gap-5 bg-sky-100 rounded-lg shadow-md p-7">
+      <div className="p-2 rounded-full bg-white text-primay">{icon}</div>
+      <div>
+        <h2 className="font-bold">{title}</h2>
+        <h2 className="text-lg">{value}</h2>
+      </div>
+    </div>
+  );
+};
+
+export default Card;
