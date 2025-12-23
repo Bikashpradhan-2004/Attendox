@@ -1,6 +1,7 @@
 "use client";
 import GradeSelect from "@/components/Attendance/GradeSelect";
 import MonthSelection from "@/components/Attendance/MonthSelection";
+import BarChartComponent from "@/components/Dashboard/BarChartComponent";
 import StatusList from "@/components/Dashboard/StatusList";
 import ApiClient from "@/lib/ApiClient";
 import moment from "moment";
@@ -10,6 +11,7 @@ const Dashboard = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [selectedGrade, setSelectedGrade] = useState("");
   const [attendanceList, setAttendanceList] = useState(null);
+  const [totalPresentData, setTotalPresentData] = useState([]);
 
   const getStudentAttendance = () => {
     ApiClient.GetAttendanceList(
@@ -20,12 +22,22 @@ const Dashboard = () => {
     });
   };
 
+  const TotalPresentCountByDay = () => {
+    ApiClient.TotalPresentCountByDay(
+      moment(selectedMonth).format("MM/yyyy"),
+      selectedGrade
+    ).then((resp) => {
+      setTotalPresentData(resp.data);
+    });
+  };
+
   useEffect(() => {
     getStudentAttendance();
+    TotalPresentCountByDay();
   }, [selectedMonth, selectedGrade]);
 
   return (
-    <div className="p-10 ">
+    <div className="p-4 lg:p-10">
       <div className="flex flex-wrap items-center justify-between">
         <h2 className="font-bold text-2xl">Dashboard</h2>
         <div className="flex gap-4 items-center">
@@ -34,6 +46,15 @@ const Dashboard = () => {
         </div>
       </div>
       <StatusList attendanceList={attendanceList} />
+      <div className="grid grid-cols-1 md:grid-cols-3 my-10">
+        <div className="md:col-span-2">
+          <BarChartComponent
+            attendanceList={attendanceList}
+            totalPresentData={totalPresentData}
+          />
+        </div>
+        <div></div>
+      </div>
     </div>
   );
 };
