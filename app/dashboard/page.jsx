@@ -2,6 +2,7 @@
 import GradeSelect from "@/components/Attendance/GradeSelect";
 import MonthSelection from "@/components/Attendance/MonthSelection";
 import BarChartComponent from "@/components/Dashboard/BarChartComponent";
+import PieChartComponent from "@/components/Dashboard/PieChartComponent";
 import StatusList from "@/components/Dashboard/StatusList";
 import ApiClient from "@/lib/ApiClient";
 import moment from "moment";
@@ -22,7 +23,7 @@ const Dashboard = () => {
     });
   };
 
-  const TotalPresentCountByDay = () => {
+  const getTotalPresentCountByDay = () => {
     ApiClient.TotalPresentCountByDay(
       moment(selectedMonth).format("MM/yyyy"),
       selectedGrade
@@ -32,8 +33,8 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
+    getTotalPresentCountByDay();
     getStudentAttendance();
-    TotalPresentCountByDay();
   }, [selectedMonth, selectedGrade]);
 
   return (
@@ -46,14 +47,14 @@ const Dashboard = () => {
         </div>
       </div>
       <StatusList attendanceList={attendanceList} />
-      <div className="grid grid-cols-1 md:grid-cols-3 my-10">
+      <div className="grid grid-cols-1 lg:grid-cols-3 my-10 gap-5">
         <div className="md:col-span-2">
           <BarChartComponent
             attendanceList={attendanceList}
             totalPresentData={totalPresentData}
           />
         </div>
-        <div></div>
+        <PieChartComponent attendanceList={attendanceList} />
       </div>
     </div>
   );
