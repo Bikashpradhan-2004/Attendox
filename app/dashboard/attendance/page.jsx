@@ -9,7 +9,7 @@ import AttendanceGrid from "@/components/Attendance/AttendanceGrid";
 
 const Attendance = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
-  const [selectedGrade, setSelectedGrade] = useState("");
+  const [selectedGrade, setSelectedGrade] = useState("5th");
   const [attendanceList, setAttendanceList] = useState(null);
 
   const onSearchHandler = () => {

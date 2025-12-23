@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 
 const Dashboard = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
-  const [selectedGrade, setSelectedGrade] = useState("");
+  const [selectedGrade, setSelectedGrade] = useState("5th");
   const [attendanceList, setAttendanceList] = useState(null);
   const [totalPresentData, setTotalPresentData] = useState([]);
 
