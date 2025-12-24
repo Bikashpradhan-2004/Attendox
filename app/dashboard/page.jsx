@@ -46,7 +46,10 @@ const Dashboard = () => {
           <GradeSelect selectedGrade={setSelectedGrade} />
         </div>
       </div>
-      <StatusList attendanceList={attendanceList} />
+      <StatusList
+        attendanceList={attendanceList}
+        selectedMonth={selectedMonth}
+      />
       <div className="grid grid-cols-1 lg:grid-cols-3 my-10 gap-5">
         <div className="md:col-span-2">
           <BarChartComponent
@@ -54,7 +57,10 @@ const Dashboard = () => {
             totalPresentData={totalPresentData}
           />
         </div>
-        <PieChartComponent attendanceList={attendanceList} />
+        <PieChartComponent
+          attendanceList={attendanceList}
+          selectedMonth={selectedMonth}
+        />
       </div>
     </div>
   );
