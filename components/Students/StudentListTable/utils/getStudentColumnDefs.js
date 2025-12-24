@@ -6,9 +6,15 @@ export const getStudentColumnDefs = (actionCellRenderer) => [
     filter: true,
   },
   {
+    field: "grade",
+    headerName: "Grade",
+    width: 120,
+    filter: true,
+  },
+  {
     field: "name",
     headerName: "Name",
-    width: 200,
+    width: 220,
     filter: true,
   },
   {
