@@ -18,21 +18,11 @@ export const getUniqueRecord = (attendanceList) => {
 };
 
 /**
- * Calculate number of days in a month
- */
-export const daysInMonth = (year, month) => {
-  return new Date(year, month + 1, 0).getDate();
-};
-
-/**
  * Generate array of days for a given month
  */
 export const generateDaysArray = (selectedMonth) => {
-  const year = moment(selectedMonth).format("YYYY");
-  const month = moment(selectedMonth).format("MM");
-  const numberOfDays = daysInMonth(year, month);
-
-  return Array.from({ length: numberOfDays }, (_, i) => i + 1);
+  const days = moment(selectedMonth).daysInMonth();
+  return Array.from({ length: days }, (_, i) => i + 1);
 };
 
 /**
