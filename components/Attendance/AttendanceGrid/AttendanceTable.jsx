@@ -16,16 +16,18 @@ const AttendanceTable = ({
   },
 }) => {
   return (
-    <div style={{ height: 535 }}>
-      <AgGridReact
-        rowData={rowData}
-        columnDefs={colDefs}
-        onCellValueChanged={onCellValueChanged}
-        pagination
-        paginationPageSize={paginationPageSize}
-        paginationPageSizeSelector={paginationPageSizeOptions}
-        defaultColDef={defaultColDef}
-      />
+    <div className="table-container">
+      <div className="ag-theme-quartz" style={{ height: 529 }}>
+        <AgGridReact
+          rowData={rowData}
+          columnDefs={colDefs}
+          onCellValueChanged={onCellValueChanged}
+          pagination
+          paginationPageSize={paginationPageSize}
+          paginationPageSizeSelector={paginationPageSizeOptions}
+          defaultColDef={defaultColDef}
+        />
+      </div>
     </div>
   );
 };
