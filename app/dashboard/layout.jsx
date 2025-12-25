@@ -1,16 +1,28 @@
+"use client";
+import clsx from "clsx";
 import Header from "@/components/Dashboard/Header";
 import SideNav from "@/components/Dashboard/SideNav";
 
-export default function layout({ children }) {
+import { useSidebarStore } from "@/zustand/useSidebarStore";
+
+const UserLayout = ({ children }) => {
+  const { isExpanded, isHovered, isMobileOpen } = useSidebarStore();
+
   return (
     <div>
-      <div className="md:w-64 fixed hidden md:block">
-        <SideNav />
-      </div>
-      <div className="md:ml-64">
+      <SideNav />
+      <div
+        className={clsx("flex-1 transition-all duration-300 ease-in-out", {
+          "ml-0": isMobileOpen,
+          "lg:ml-[290px]": !isMobileOpen && (isExpanded || isHovered),
+          "lg:ml-[90px]": !isMobileOpen && !isExpanded && !isHovered,
+        })}
+      >
         <Header />
-        {children}
+        <div>{children}</div>
       </div>
     </div>
   );
-}
+};
+
+export default UserLayout;
