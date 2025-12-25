@@ -17,7 +17,7 @@ const AttendanceTable = ({
 }) => {
   return (
     <div className="table-container">
-      <div className="ag-theme-quartz" style={{ height: 529 }}>
+      <div className="ag-theme-quartz" style={{ height: 541 }}>
         <AgGridReact
           rowData={rowData}
           columnDefs={colDefs}
