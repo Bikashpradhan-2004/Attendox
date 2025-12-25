@@ -7,69 +7,164 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSidebarStore } from "@/zustand/useSidebarStore";
+import clsx from "clsx";
+import { useCallback } from "react";
 
 const SideNav = () => {
+  const { isExpanded, isMobileOpen, isHovered, setIsHovered } =
+    useSidebarStore();
+
+  const pathname = usePathname();
+  const isActive = useCallback((path) => path === pathname, [pathname]);
+
+  const isFullWidth = isExpanded || isMobileOpen || isHovered;
+
   const { user } = useKindeBrowserClient();
   const profileImageUrl = user?.picture;
-  const pathname = usePathname();
 
-  const menuList = [
+  const navItems = [
     {
       name: "Dashboard",
-      icon: <MdDashboard />,
+      icon: <MdDashboard className="text-2xl" />,
       path: "/dashboard",
     },
     {
       name: "Students",
-      icon: <PiStudent />,
+      icon: <PiStudent className="text-2xl" />,
       path: "/dashboard/students",
     },
     {
       name: "Attendance",
-      icon: <HiOutlineHandRaised />,
+      icon: <HiOutlineHandRaised className="text-2xl" />,
       path: "/dashboard/attendance",
     },
     {
       name: "Settings",
-      icon: <IoSettingsOutline />,
+      icon: <IoSettingsOutline className="text-2xl" />,
       path: "/dashboard/settings",
     },
   ];
 
   return (
-    <div className="border shadow-md h-screen p-5 relative">
-      <Image src="/images/attendox.png" width={180} height={50} alt="logo" />
-      <hr className="my-5"></hr>
-      {menuList.map((menu) => (
-        <Link href={menu.path} key={menu.name}>
-          <h2
-            className={`flex items-center gap-3 text-md px-3 py-4 text-slate-500 hover:bg-primary hover:text-white cursor-pointer rounded-lg my-2 transition ${
-              pathname === menu.path && "bg-primary text-white"
-            }`}
-          >
-            <div className="text-2xl">{menu.icon}</div>
-            {menu.name}
-          </h2>
-        </Link>
-      ))}
-      <div className="flex gap-2 items-center absolute bottom-10 left-5">
-        {profileImageUrl && (
-          <Image
-            src={profileImageUrl}
-            width={35}
-            height={35}
-            alt="user"
-            className="rounded-full"
-          />
+    <aside
+      className={clsx(
+        "fixed top-0 left-0 flex flex-col bg-white h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-300 shadow-2xl",
+        {
+          "w-[290px]": isFullWidth,
+          "w-[90px]": !isFullWidth,
+        },
+        {
+          "translate-x-0": isMobileOpen,
+          "-translate-x-full": !isMobileOpen,
+        },
+        "lg:translate-x-0",
+        "mt-16 lg:mt-0"
+      )}
+      onMouseEnter={() => !isExpanded && setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div
+        className={clsx(
+          "border-b border-gray-300 flex transition-all duration-300",
+          {
+            "justify-start px-5": isFullWidth,
+            "justify-center": !isFullWidth,
+          }
         )}
-        <div>
-          <h2 className="text-sm font-bold">
-            {user?.given_name} {user?.family_name}
-          </h2>
-          <h2 className="text-xs text-slate-400">{user?.email}</h2>
+      >
+        <Link href="/dashboard" className="flex items-center">
+          {isFullWidth ? (
+            <Image
+              src="/images/attendox.png"
+              alt="Logo"
+              width={178}
+              height={20}
+              className="py-4"
+            />
+          ) : (
+            <Image
+              src="/images/logo-icon.png"
+              alt="Logo"
+              width={44}
+              height={44}
+              className="py-5"
+            />
+          )}
+        </Link>
+      </div>
+
+      <nav className="flex-1 overflow-y-auto px-5">
+        <ul className="flex flex-col gap-3 mt-4 no-scrollbar">
+          {navItems.map(({ name, icon, path }) => (
+            <li
+              key={name}
+              className={clsx(
+                "rounded-lg font-medium transition-all duration-200",
+                {
+                  "bg-blue-700 text-white shadow-sm": isActive(path),
+                  "text-gray-600 hover:bg-blue-700 hover:text-white hover:shadow-sm":
+                    !isActive(path),
+                }
+              )}
+            >
+              <Link href={path} className="flex items-center gap-3 py-4 px-3">
+                <span className="shrink-0">{icon}</span>
+                <span
+                  className={clsx(
+                    "whitespace-nowrap transition-opacity duration-300",
+                    {
+                      "opacity-100": isFullWidth,
+                      "opacity-0 hidden": !isFullWidth,
+                    }
+                  )}
+                >
+                  {name}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div
+        className={clsx(
+          "border-t border-gray-300 py-4 transition-all duration-300 mb-16   lg:mb-0",
+          {
+            "px-5": isFullWidth,
+            "px-3": !isFullWidth,
+          }
+        )}
+      >
+        <div
+          className={clsx("flex items-center gap-3", {
+            "justify-start": isFullWidth,
+            "justify-center": !isFullWidth,
+          })}
+        >
+          {profileImageUrl && (
+            <Image
+              src={profileImageUrl}
+              width={35}
+              height={35}
+              alt="user"
+              className="rounded-full shrink-0"
+            />
+          )}
+          <div
+            className={clsx("transition-opacity duration-300 overflow-hidden", {
+              "opacity-100": isFullWidth,
+              "opacity-0 w-0 hidden": !isFullWidth,
+            })}
+          >
+            <h2 className="text-sm font-bold truncate">
+              {user?.given_name} {user?.family_name}
+            </h2>
+            <h2 className="text-xs text-slate-400 truncate">{user?.email}</h2>
+          </div>
         </div>
       </div>
-    </div>
+    </aside>
   );
 };
 
