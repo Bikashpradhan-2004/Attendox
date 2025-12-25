@@ -33,7 +33,7 @@ const AddNewStudent = ({ refreshData }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-blue-600 hover:bg-blue-700">
+        <Button>
           + Add New Student
         </Button>
       </DialogTrigger>
