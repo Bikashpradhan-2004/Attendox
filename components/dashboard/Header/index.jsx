@@ -1,10 +1,39 @@
+"use client";
+
+import {
+  TbLayoutSidebarLeftCollapseFilled,
+  TbLayoutSidebarLeftExpandFilled,
+} from "react-icons/tb";
 import UserNav from "./UserNav";
+import { useSidebarStore } from "@/zustand/useSidebarStore";
+
 const Header = () => {
+  const { isMobileOpen, toggleSidebar, toggleMobileSidebar } =
+    useSidebarStore();
+
+  const handleToggle = () => {
+    if (window.innerWidth >= 1024) {
+      toggleSidebar();
+    } else {
+      toggleMobileSidebar();
+    }
+  };
+
   return (
-    <div className="p-4 shadow-sm border flex justify-between">
-      <div></div>
+    <header className="sticky top-0 border-gray-300 border-b flex items-center justify-between p-3 lg:p-5 z-50 bg-white shadow-lg">
+      <button
+        className="flex items-center justify-center w-11 aspect-square text-gray-500 border-gray-200 border rounded-lg z-99999 text-4xl cursor-pointer bg-blue-100"
+        onClick={handleToggle}
+        aria-label="Toggle Sidebar"
+      >
+        {isMobileOpen ? (
+          <TbLayoutSidebarLeftCollapseFilled />
+        ) : (
+          <TbLayoutSidebarLeftExpandFilled />
+        )}
+      </button>
       <UserNav />
-    </div>
+    </header>
   );
 };
 
