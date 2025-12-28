@@ -19,8 +19,7 @@ const DataTable = ({
 }) => {
   const defaultColDef = useMemo(
     () => ({
-      sortable: true,
-      resizable: true,
+      cellStyle: { borderRight: "1px solid #dee2e6" },
     }),
     []
   );
