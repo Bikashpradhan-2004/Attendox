@@ -56,8 +56,8 @@ export const useAttendanceGrid = (attendanceList, selectedMonth) => {
 
     // Generate column definitions
     const newColDefs = [
-      { field: "studentId", filter: true },
-      { field: "name", filter: true },
+      { field: "studentId", filter: true, width:140 },
+      { field: "name", filter: true, width:300},
       ...daysArray.map((date) => ({
         field: date.toString(),
         width: 50,
