@@ -54,7 +54,7 @@ const UserNav = () => {
                 onConfirm={handleLogout}
                 triggerButton={
                   <div className="w-40 flex flex-col gap-1 text-lg font-semibold">
-                    <button className="data-[active=true]:focus:bg-blue-500 data-[active=true]:hover:bg-blue-500 data-[active=true]:bg-blue-500/50 data-[active=true]:text-white hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white focus-visible:ring-ring/50 [&_svg:not([class*='text-'])]:text-muted-foreground flex flex-col gap-1 rounded-sm p-2 text-sm transition-all outline-none focus-visible:ring-[3px] focus-visible:outline-1 [&_svg:not([class*='size-'])]:size-4 text-left w-full">
+                    <button className=" hover:bg-blue-700 hover:text-white focus:bg-blue-600 rounded-sm p-2 text-sm transition-all text-left w-full">
                       Signout
                     </button>
                   </div>
