@@ -21,7 +21,9 @@ export const STUDENTS = pgTable("students", {
 
 export const ATTENDANCE = pgTable("attendance", {
   id: serial("id").primaryKey(),
-  studentId: integer("student_id").notNull(),
+  studentId: integer("student_id")
+    .notNull()
+    .references(() => STUDENTS.id, { onDelete: "cascade" }),
   present: boolean("present").default(false),
   day: integer("day").notNull(),
   date: varchar("date", { length: 20 }).notNull(),
