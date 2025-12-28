@@ -12,8 +12,13 @@ import clsx from "clsx";
 import { useCallback } from "react";
 
 const SideNav = () => {
-  const { isExpanded, isMobileOpen, isHovered, setIsHovered } =
-    useSidebarStore();
+  const {
+    isExpanded,
+    isMobileOpen,
+    isHovered,
+    setIsHovered,
+    toggleMobileSidebar,
+  } = useSidebarStore();
 
   const pathname = usePathname();
   const isActive = useCallback((path) => path === pathname, [pathname]);
@@ -22,6 +27,13 @@ const SideNav = () => {
 
   const { user } = useKindeBrowserClient();
   const profileImageUrl = user?.picture;
+
+  const handleLinkClick = () => {
+
+    if (window.innerWidth < 1024 && isMobileOpen) {
+      toggleMobileSidebar();
+    }
+  };
 
   const navItems = [
     {
@@ -73,7 +85,11 @@ const SideNav = () => {
           }
         )}
       >
-        <Link href="/dashboard" className="flex items-center">
+        <Link
+          href="/dashboard"
+          onClick={handleLinkClick}
+          className="flex items-center"
+        >
           {isFullWidth ? (
             <Image
               src="/images/attendox.png"
@@ -108,7 +124,11 @@ const SideNav = () => {
                 }
               )}
             >
-              <Link href={path} className="flex items-center gap-3 py-4 px-3">
+              <Link
+                href={path}
+                onClick={handleLinkClick}
+                className="flex items-center gap-3 py-4 px-3"
+              >
                 <span className="shrink-0">{icon}</span>
                 <span
                   className={clsx(
