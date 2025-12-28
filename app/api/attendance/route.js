@@ -1,7 +1,7 @@
 import { db } from "@/utils";
 import { ATTENDANCE, STUDENTS } from "@/utils/schema";
 import { NextResponse } from "next/server";
-import { eq, and, or, isNull } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 
 export async function GET(req) {
   const searchParams = req.nextUrl.searchParams;
