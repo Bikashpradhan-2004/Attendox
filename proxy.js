@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
-export async function middleware(request) {
+export async function proxy(request) {
   const { isAuthenticated } = getKindeServerSession();
 
   if (!(await isAuthenticated())) {
