@@ -1,9 +1,9 @@
 "use client";
 import GradeSelect from "@/components/Attendance/GradeSelect/index";
 import MonthSelection from "@/components/Attendance/MonthSelection/index";
-import BarChartComponent from "@/components/Dashboard/BarChartComponent/index";
-import PieChartComponent from "@/components/Dashboard/PieChartComponent/index";
-import StatusList from "@/components/Dashboard/StatusList/index";
+import BarChartComponent from "@/components/dashboard/BarChartComponent/index";
+import PieChartComponent from "@/components/dashboard/PieChartComponent/index";
+import StatusList from "@/components/dashboard/StatusList/index";
 import ApiClient from "@/lib/ApiClient";
 import moment from "moment";
 import { useEffect, useState } from "react";
