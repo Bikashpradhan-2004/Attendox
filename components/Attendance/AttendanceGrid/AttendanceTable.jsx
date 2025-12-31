@@ -20,7 +20,6 @@ const AttendanceTable = ({
   const defaultColDef = useMemo(
     () => ({
       resizable: false,
-      cellStyle: { borderRight: "1px solid #dee2e6" },
     }),
     []
   );
