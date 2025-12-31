@@ -1,76 +1,35 @@
-import { useEffect, useState } from "react";
-import moment from "moment";
-import ApiClient from "@/lib/ApiClient";
-import { toast } from "sonner";
-import {
-  getUniqueRecord,
-  generateDaysArray,
-  isPresent,
-} from "@/components/Attendance/AttendanceGrid/utils/attendanceHelpers";
+import { useEffect, useState, useCallback, useMemo } from "react";
+import { attendanceService } from "@/components/Attendance/AttendanceGrid/utils/attendanceService";
+import { buildColumnDefinitions } from "@/components/Attendance/AttendanceGrid/utils/columnBuilder";
+import { transformAttendanceData } from "@/components/Attendance/AttendanceGrid/utils/attendanceDataMapper";
 
 export const useAttendanceGrid = (attendanceList, selectedMonth) => {
-  const [rowData, setRowData] = useState([]);
-  const [colDefs, setColDefs] = useState([]);
+  const [gridData, setGridData] = useState({ rowData: [], daysArray: [] });
 
-  /**
-   * Mark student attendance (present or absent)
-   */
-  const onMarkAttendance = async (day, studentId, presentStatus) => {
-    const date = moment(selectedMonth).format("MM/yyyy");
-
-    try {
-      if (presentStatus) {
-        const data = {
-          day: day,
-          studentId: studentId,
-          present: presentStatus,
-          date: date,
-        };
-        await ApiClient.MarkAttendance(data);
-        toast(`Student Id: ${studentId} marked as present`);
-      } else {
-        await ApiClient.markAbsent(studentId, day, date);
-        toast(`Student Id: ${studentId} marked as absent`);
-      }
-    } catch (error) {
-      toast.error(`Failed to mark attendance for Student Id: ${studentId}`);
-      console.error("Attendance marking error:", error);
-    }
-  };
-
-  /**
-   * Process attendance data and generate grid structure
-   */
   useEffect(() => {
-    if (!attendanceList) return;
+    const data = transformAttendanceData(attendanceList, selectedMonth);
+    setGridData(data);
+  }, [attendanceList, selectedMonth]);
 
-    const daysArray = generateDaysArray(selectedMonth);
-    const userList = getUniqueRecord(attendanceList);
+  const colDefs = useMemo(
+    () => buildColumnDefinitions(gridData.daysArray, selectedMonth),
+    [gridData.daysArray, selectedMonth]
+  );
 
-    // Add attendance status for each day to user records
-    userList.forEach((user) => {
-      daysArray.forEach((day) => {
-        user[day] = isPresent(attendanceList, user.studentId, day);
-      });
-    });
-
-    // Generate column definitions
-    const newColDefs = [
-      { field: "studentId", filter: true, width:140 },
-      { field: "name", filter: true, width:300},
-      ...daysArray.map((date) => ({
-        field: date.toString(),
-        width: 50,
-        editable: true,
-      })),
-    ];
-
-    setColDefs(newColDefs);
-    setRowData(userList);
-  }, [attendanceList]);
+  const onMarkAttendance = useCallback(
+    async (day, studentId, presentStatus) => {
+      return await attendanceService.markAttendance(
+        studentId,
+        day,
+        selectedMonth,
+        presentStatus
+      );
+    },
+    [selectedMonth]
+  );
 
   return {
-    rowData,
+    rowData: gridData.rowData,
     colDefs,
     onMarkAttendance,
   };
