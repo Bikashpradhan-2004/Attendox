@@ -13,6 +13,7 @@ export const GRADES = pgTable("grades", {
 
 export const STUDENTS = pgTable("students", {
   id: serial("id").primaryKey(),
+  userId: varchar("user_id", { length: 100 }).notNull(),
   name: varchar("name", { length: 30 }).notNull(),
   grade: varchar("grade", { length: 10 }).notNull(),
   address: varchar("address", { length: 50 }),
