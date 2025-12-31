@@ -1,7 +1,7 @@
 "use client";
 import clsx from "clsx";
-import Header from "@/components/Dashboard/Header";
-import SideNav from "@/components/Dashboard/SideNav";
+import Header from "@/components/Dashboard/Header/index";
+import SideNav from "@/components/Dashboard/SideNav/index";
 
 import { useSidebarStore } from "@/zustand/useSidebarStore";
 
