@@ -56,3 +56,33 @@ export async function DELETE(req) {
 
   return NextResponse.json(result);
 }
+
+export async function PATCH(req) {
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+  if (!user?.id)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const id = req.nextUrl.searchParams.get("id");
+  if (!id) 
+    return NextResponse.json({ error: "id required" }, { status: 400 });
+
+  const data = await req.json();
+  if (!data.name || !data.grade)
+    return NextResponse.json(
+      { error: "name & grade required" },
+      { status: 400 }
+    );
+
+  const result = await db
+    .update(STUDENTS)
+    .set({
+      name: data.name,
+      grade: data.grade,
+      address: data.address || "",
+      contact: data.phone || "",
+    })
+    .where(and(eq(STUDENTS.id, id), eq(STUDENTS.userId, user.id)));
+
+  return NextResponse.json(result);
+}
