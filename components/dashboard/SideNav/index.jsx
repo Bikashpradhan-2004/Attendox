@@ -92,7 +92,7 @@ const SideNav = () => {
         >
           {isFullWidth ? (
             <Image
-              src="/images/attendox.png"
+              src="/images/attendox-logo.png"
               alt="Logo"
               width={178}
               height={20}
