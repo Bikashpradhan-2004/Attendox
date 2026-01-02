@@ -30,8 +30,8 @@ export const getStudentColumnDefs = (actionCellRenderer) => [
     filter: true,
   },
   {
-    headerName: "Action",
-    width: 120,
+    headerName: "Action (Edit, Delete)",
+    width: 180,
     pinned: "right",
     cellRenderer: actionCellRenderer,
     sortable: false,
@@ -40,6 +40,7 @@ export const getStudentColumnDefs = (actionCellRenderer) => [
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
+      gap: "8px",
     },
   },
 ];
