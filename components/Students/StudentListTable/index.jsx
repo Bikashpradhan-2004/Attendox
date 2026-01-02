@@ -1,36 +1,34 @@
 "use client";
 
-import { useMemo, useCallback } from "react";
-import { toast } from "sonner";
-
+import { useMemo, useCallback, useState } from "react";
 import ActionCell from "./ActionCell";
-import ApiClient from "@/lib/ApiClient";
 import DataTable from "./DataTable";
 import useTableData from "@/hooks/useTableData";
-import { getStudentColumnDefs } from "@/components/Students/StudentListTable/utils/getStudentColumnDefs";
 import SearchBar from "./SearchBar";
+import { getStudentColumnDefs } from "./utils/getStudentColumnDefs";
+import EditStudentDialog from "./EditStudentDialog";
+import { useStudentDeleteAction } from "@/hooks/useStudentDeleteAction";
 
 const StudentListTable = ({ studentList, refreshData }) => {
   const { data, searchText, handleSearch } = useTableData(studentList);
+  const { handleDelete } = useStudentDeleteAction(refreshData);
+  const [editStudent, setEditStudent] = useState(null);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
 
-  const handleDelete = useCallback(
-    async (id) => {
-      try {
-        const resp = await ApiClient.DeleteStudentRecord(id);
-        if (resp) {
-          toast.success("Record deleted successfully!");
-          refreshData();
-        }
-      } catch (error) {
-        toast.error("Failed to delete record");
-      }
-    },
-    [refreshData]
-  );
+  const handleEdit = useCallback((studentData) => {
+    setEditStudent(studentData);
+    setEditDialogOpen(true);
+  }, []);
 
   const actionCellRenderer = useCallback(
-    (props) => <ActionCell data={props.data} onDelete={handleDelete} />,
-    [handleDelete]
+    (props) => (
+      <ActionCell
+        data={props.data}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
+    ),
+    [handleEdit, handleDelete]
   );
 
   const columnDefs = useMemo(
@@ -46,6 +44,15 @@ const StudentListTable = ({ studentList, refreshData }) => {
         placeholder="Search on Anything..."
       />
       <DataTable data={data} columnDefs={columnDefs} searchText={searchText} />
+
+      {editStudent && (
+        <EditStudentDialog
+          student={editStudent}
+          open={editDialogOpen}
+          onOpenChange={setEditDialogOpen}
+          refreshData={refreshData}
+        />
+      )}
     </div>
   );
 };
