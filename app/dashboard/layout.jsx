@@ -14,7 +14,7 @@ const UserLayout = ({ children }) => {
       <div
         className={clsx("flex-1 transition-all duration-300 ease-in-out", {
           "ml-0": isMobileOpen,
-          "lg:ml-[290px]": !isMobileOpen && (isExpanded || isHovered),
+          "lg:ml-[270px]": !isMobileOpen && (isExpanded || isHovered),
           "lg:ml-[90px]": !isMobileOpen && !isExpanded && !isHovered,
         })}
       >

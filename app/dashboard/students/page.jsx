@@ -16,7 +16,7 @@ const students = () => {
   };
   return (
     <div className="p-7">
-      <div className="flex flex-wrap justify-between items-center">
+      <div className="flex flex-col md:flex-row items-start md:justify-between gap-4">
         <h2 className="font-bold text-2xl">Students</h2>
         <AddNewStudent refreshData={GetAllStudents} />
       </div>

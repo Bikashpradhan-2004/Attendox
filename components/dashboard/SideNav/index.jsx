@@ -61,9 +61,9 @@ const SideNav = () => {
   return (
     <aside
       className={clsx(
-        "fixed top-0 left-0 flex flex-col bg-white h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-300 shadow-2xl",
+        "fixed top-0 left-0 flex flex-col bg-white h-full transition-all duration-300 ease-in-out z-50 border-r border-gray-300 shadow-2xl",
         {
-          "w-[290px]": isFullWidth,
+          "w-[270px]": isFullWidth,
           "w-[90px]": !isFullWidth,
         },
         {
