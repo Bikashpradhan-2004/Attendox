@@ -1,12 +1,12 @@
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
-import { useMemo } from "react";
+import { useMemo, forwardRef, useImperativeHandle, useRef } from "react";
 
 import "ag-grid-community/styles/ag-theme-quartz.css";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
-const DataTable = ({
+const DataTable = forwardRef(({
   data = [],
   columnDefs = [],
   searchText = "",
@@ -16,7 +16,9 @@ const DataTable = ({
   paginationPageSizeOptions = [10, 20, 50],
   rowHeight = 40,
   headerHeight = 48,
-}) => {
+}, ref) => {
+  const gridRef = useRef();
+
   const defaultColDef = useMemo(
     () => ({
       cellStyle: { borderRight: "1px solid #dee2e6" },
@@ -24,10 +26,16 @@ const DataTable = ({
     []
   );
 
+  useImperativeHandle(ref, () => ({
+    api: gridRef.current?.api,
+    columnApi: gridRef.current?.columnApi,
+  }));
+
   return (
     <div className="table-container my-5">
       <div className="ag-theme-quartz" style={{ height, minWidth }}>
         <AgGridReact
+          ref={gridRef}
           rowData={data}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
@@ -60,6 +68,8 @@ const DataTable = ({
       `}</style>
     </div>
   );
-};
+});
+
+DataTable.displayName = "DataTable";
 
 export default DataTable;
