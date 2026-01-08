@@ -1,13 +1,12 @@
 "use client";
 import LogoutConfirmDialog from "@/components/dashboard/Header/LogoutConfirmDialog";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 
 const Settings = () => {
-  const router = useRouter();
   const handleLogout = () => {
-    router.push("/api/auth/logout");
+    window.location.replace("/api/auth/logout");
   };
+
   return (
     <div className="h-screen flex items-center justify-center">
       <LogoutConfirmDialog
